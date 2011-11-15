@@ -17,22 +17,22 @@ public:
     virtual ~OnlyHighlightMod() {}
 
     virtual void OnModCommand(const CString& sLine) {
-		CString command = sLine.Token(0);
+        CString command = sLine.Token(0);
 
         if (command.Equals("help")) {
-			CTable Table;
-			Table.AddColumn("Command");
-			Table.AddColumn("Description");
-			Table.AddRow();
-			Table.SetCell("Command", "Highlight [<highlight>]");
-			Table.SetCell("Description", "Set or display the current highlight");
-			Table.AddRow();
-			Table.SetCell("Command", "LinesToBuffer [<lines>]");
-			Table.SetCell("Description", "Set or display the number of lines to buffer");
-			Table.AddRow();
-			Table.SetCell("Command", "Channels [<channels>]");
-			Table.SetCell("Description", "Set or display the channels watched");
-			PutModule(Table);
+            CTable Table;
+            Table.AddColumn("Command");
+            Table.AddColumn("Description");
+            Table.AddRow();
+            Table.SetCell("Command", "Highlight [<highlight>]");
+            Table.SetCell("Description", "Set or display the current highlight");
+            Table.AddRow();
+            Table.SetCell("Command", "LinesToBuffer [<lines>]");
+            Table.SetCell("Description", "Set or display the number of lines to buffer");
+            Table.AddRow();
+            Table.SetCell("Command", "Channels [<channels>]");
+            Table.SetCell("Description", "Set or display the channels watched");
+            PutModule(Table);
         }
         else if (command.Equals("Highlight")) {
             HandleHighlightCommand(sLine);
@@ -43,8 +43,8 @@ public:
         else if (command.Equals("Channels")) {
             HandleChannelsCommand(sLine);
         } else {
-			PutModule("Unknown command. Try 'help'.");
-		}
+            PutModule("Unknown command. Try 'help'.");
+        }
     }
 
     virtual bool OnLoad(const CString& sArgs, CString& sMessage) {
@@ -116,39 +116,39 @@ public:
     void HandleHighlightCommand(const CString& sLine) {
         CString newHighlight = sLine.Token(1);
 
-		if (newHighlight.empty()) {
-			PutModule("Current highlight is: " + highlight);
-		} else {
+        if (newHighlight.empty()) {
+            PutModule("Current highlight is: " + highlight);
+        } else {
             highlight = newHighlight;
             SetNV("highlight", newHighlight);
-			PutModule("New highlight is: " + newHighlight);
-		}
-	}
+            PutModule("New highlight is: " + newHighlight);
+        }
+    }
 
     void HandleLinesToBufferCommand(const CString& sLine) {
         CString newLinesToBuffer = sLine.Token(1);
 
-		if (newLinesToBuffer.empty()) {
-			PutModule("Current number of lines buffered is: " +
+        if (newLinesToBuffer.empty()) {
+            PutModule("Current number of lines buffered is: " +
                       CString(linesToBuffer));
-		} else {
+        } else {
             linesToBuffer = newLinesToBuffer.ToInt();
             SetNV("linesToBuffer", newLinesToBuffer);
-			PutModule("New number of lines to buffer is: " + newLinesToBuffer);
-		}
-	}
+            PutModule("New number of lines to buffer is: " + newLinesToBuffer);
+        }
+    }
 
     void HandleChannelsCommand(const CString& sLine) {
         CString newChannels = sLine.Token(1, true);
 
-		if (newChannels.empty()) {
+        if (newChannels.empty()) {
             OutputChannels();
-		} else {
+        } else {
             SetNV("channels", newChannels);
             SetupChannels(newChannels);
             OutputChannels();
-		}
-	}
+        }
+    }
 
 private:
 
