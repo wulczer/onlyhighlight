@@ -1,0 +1,24 @@
+A simple module for the ZNC IRC bouncer.
+
+For certain channels, only buffer playback lines that contain a
+highlight term and a few immediately following lines.
+
+It has to be loaded as a user module meaning that you have to put it
+in the <User> section and it takes no arguments.
+
+You can configure three parameters, by messaging *onlyhighlight with:
+
+/msg *onlyhighlight highlight [new-highlight term]
+/msg *onlyhighlight channels [list-of-channels]
+/msg *onlyhighlight linesToBuffer [number-of-lines-to-buffer-after-highlight]
+
+If a message is received in a channel configured to be guarded by this
+module and the user is not connected to ZNC, it will be discarded if
+it doesn't contain the highlight term in the last linesToBuffer
+lines. Channels not guarded by the module are not affected at all.
+
+The intended use for this module is to guard high-volume channels you
+frequent and that have a large playback buffer to not accumulate
+messages where your nick has not been mentioned. This way when you
+connect you will be able to see parts of the conversation relevant to
+you.
