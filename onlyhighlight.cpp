@@ -12,17 +12,40 @@ class OnlyHighlightMod : public CModule {
 
 public:
 
-    MODCONSTRUCTOR(OnlyHighlightMod) {
-        AddHelpCommand();
-		AddCommand("Highlight",  static_cast<CModCommand::ModCmdFunc>(&OnlyHighlightMod::HandleHighlightCommand),
-                   "[highlight]", "Set or display the current highlight");
-		AddCommand("LinesToBuffer",  static_cast<CModCommand::ModCmdFunc>(&OnlyHighlightMod::HandleLinesToBufferCommand),
-                   "[lines]", "Set or display the number of lines to buffer");
-		AddCommand("Channels", static_cast<CModCommand::ModCmdFunc>(&OnlyHighlightMod::HandleChannelsCommand),
-                   "[channels]", "Set or display the channels watched");
-    }
+    MODCONSTRUCTOR(OnlyHighlightMod) {}
 
     virtual ~OnlyHighlightMod() {}
+
+    virtual void OnModCommand(const CString& sLine) {
+		CString command = sLine.Token(0);
+
+        if (command.Equals("help")) {
+			CTable Table;
+			Table.AddColumn("Command");
+			Table.AddColumn("Description");
+			Table.AddRow();
+			Table.SetCell("Command", "Highlight [<highlight>]");
+			Table.SetCell("Description", "Set or display the current highlight");
+			Table.AddRow();
+			Table.SetCell("Command", "LinesToBuffer [<lines>]");
+			Table.SetCell("Description", "Set or display the number of lines to buffer");
+			Table.AddRow();
+			Table.SetCell("Command", "Channels [<channels>]");
+			Table.SetCell("Description", "Set or display the channels watched");
+			PutModule(Table);
+        }
+        else if (command.Equals("Highlight")) {
+            HandleHighlightCommand(sLine);
+        }
+        else if (command.Equals("linesToBuffer")) {
+            HandleLinesToBufferCommand(sLine);
+        }
+        else if (command.Equals("Channels")) {
+            HandleChannelsCommand(sLine);
+        } else {
+			PutModule("Unknown command. Try 'help'.");
+		}
+    }
 
     virtual bool OnLoad(const CString& sArgs, CString& sMessage) {
         CString lines;
