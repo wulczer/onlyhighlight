@@ -113,6 +113,10 @@ public:
         return CONTINUE;
     }
 
+    virtual EModRet OnChanAction(CNick& Nick, CChan& Channel, CString& sMessage) {
+        return OnChanMsg(Nick, Channel, sMessage);
+    }
+
     void HandleHighlightCommand(const CString& sLine) {
         CString newHighlight = sLine.Token(1);
 
